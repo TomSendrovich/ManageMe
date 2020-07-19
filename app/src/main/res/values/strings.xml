@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">ManageMe2</string>
+    <string name="add_task_title">task_title</string>
+    <string name="add_task_description">task_description</string>
+    <string name="spinner_item">Spinner Item</string>
+    <string name="days_count">Days left:</string>
+
+    <string-array name="time_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+    </string-array>
+</resources>
