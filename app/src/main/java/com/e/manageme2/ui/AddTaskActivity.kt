@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import com.e.manageme2.R
 import com.e.manageme2.db.Task
@@ -22,8 +23,14 @@ class AddTaskActivity : AppCompatActivity() {
     private var mTaskGoal: Double = 0.0
     private var mTaskCurrentScore: Double = 0.0
     var isUpdate: Boolean = false
-    lateinit var calenderView: CalendarView
-    private var calenderOffset : Calendar = Calendar.getInstance()
+
+    private lateinit var spinnerChooseMethod: Spinner
+    private lateinit var spinnerMonth: Spinner
+    private lateinit var spinnerDay: Spinner
+    private lateinit var method: String
+    private lateinit var chosenDate: String
+    private lateinit var chosenDay: String
+    private var methodId: Int = 0
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,11 +39,125 @@ class AddTaskActivity : AppCompatActivity() {
 
         val task = intent.getSerializableExtra("EXTRA_TASK") as? Task
 
-        calenderView = findViewById(R.id.calender_view)
-        calenderView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            calenderOffset.set(Calendar.YEAR,year)
-            calenderOffset.set(Calendar.MONTH,month)
-            calenderOffset.set(Calendar.DAY_OF_MONTH,dayOfMonth)
+
+
+        val methodChoose = arrayOf("Daily", "Weekly", "Monthly")
+        val daysOfWeek =
+            arrayOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+        val daysOfMonth = arrayOf(
+            "1st",
+            "2nd",
+            "3rd",
+            "4th",
+            "5th",
+            "6th",
+            "7th",
+            "8th",
+            "9th",
+            "10th",
+            "11th",
+            "12th",
+            "13th",
+            "14th",
+            "15th",
+            "16th",
+            "17th",
+            "18th",
+            "19th",
+            "20th",
+            "21th",
+            "22th",
+            "22th",
+            "23th",
+            "24th",
+            "25th",
+            "26th",
+            "27th",
+            "28th"
+        )
+
+        spinnerChooseMethod = findViewById(R.id.spinner_choose_method)
+        spinnerChooseMethod.adapter =
+            ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, methodChoose)
+
+        spinnerChooseMethod.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                method = methodChoose[position]
+                if (method.compareTo("Daily") == 0) {
+                    start_day.visibility = View.INVISIBLE
+                    spinner_weekly.visibility = View.INVISIBLE
+
+                    start_date_month.visibility = View.INVISIBLE
+                    spinner_month.visibility = View.INVISIBLE
+
+                    methodId=0
+                }
+                if (method.compareTo("Weekly") == 0) {
+                    start_day.visibility = View.VISIBLE
+                    spinner_weekly.visibility = View.VISIBLE
+
+                    start_date_month.visibility = View.INVISIBLE
+                    spinner_month.visibility = View.INVISIBLE
+
+                    methodId=1
+                }
+                if (method.compareTo("Monthly") == 0) {
+                    start_day.visibility = View.INVISIBLE
+                    spinner_weekly.visibility = View.INVISIBLE
+
+                    start_date_month.visibility = View.VISIBLE
+                    spinner_month.visibility = View.VISIBLE
+
+                    methodId=2
+                }
+            }
+        }
+
+        spinnerMonth = findViewById(R.id.spinner_month)
+        spinnerMonth.adapter =
+            ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, daysOfMonth)
+        spinnerMonth.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                chosenDate = daysOfMonth[position]
+            }
+
+        }
+
+        spinnerDay = findViewById(R.id.spinner_weekly)
+        spinnerDay.adapter =
+            ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, daysOfWeek)
+        spinnerDay.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                chosenDay = daysOfWeek[position]
+            }
         }
 
 
@@ -86,7 +207,8 @@ class AddTaskActivity : AppCompatActivity() {
                     mTaskBody,
                     mTaskGoal,
                     mTaskCurrentScore,
-                    calenderOffset
+                    false,
+                    methodId
                 )
                 //Checks if we have an extra for the intent, if it does its an updated task.
                 //else, it is a new task

@@ -6,9 +6,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.fragment.app.FragmentManager
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.e.manageme2.R
 import com.e.manageme2.db.Task
@@ -29,6 +28,9 @@ class MainActivity : AppCompatActivity() {
     private var mAllTasks: MutableList<Task> = ArrayList()
     private var mFinishedTasks: MutableList<Task> = ArrayList()
     private val notFinishedTasks: MutableList<Task> = ArrayList()
+    private lateinit var adapter : TasksAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var toolbar :Toolbar
 
     private var menuObjects :MutableList<MenuObject> = ArrayList()
     private lateinit var mContextMenuDialogFragmet : ContextMenuDialogFragment
@@ -55,8 +57,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         //the recycler now has a fixed size
-        recycler_view_tasks.setHasFixedSize(true)
-        recycler_view_tasks.layoutManager = StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL)
+        recyclerView = findViewById(R.id.recycler_view_tasks)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL)
         CoroutineScope(EmptyCoroutineContext).launch {
             mAllTasks = TaskDatabase(applicationContext).getTaskDao().getAllTasks()
         }
@@ -71,26 +74,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Adding all the non-finished tasks to the recycler view
-        val adapter = TasksAdapter(applicationContext,notFinishedTasks)
-        recycler_view_tasks.adapter = adapter
+        adapter = TasksAdapter(applicationContext,notFinishedTasks)
+        recyclerView.adapter = adapter
         adapter.notifyDataSetChanged()
-        //(recycler_view_tasks.adapter as TasksAdapter).notifyDataSetChanged()
-
-        //Adding the expandable list adapter
-        /*expandable_list_view.setAdapter(
-            ExpandableListAdapter(
-                applicationContext,
-                mHeader,
-                mFinishedTasks
-            )
-        )
-        expandable_list_view.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
-            //todo:Intent to ReturnTaskActivity with the Task that return
-            val intent = Intent(applicationContext, AddTaskActivity::class.java)
-            //intent.putExtra("EXTRA_TASK",parent.getChildAt(id.toInt()))
-            startActivity(intent)
-            return@setOnChildClickListener true
-        }*/
 
         button_add.setOnClickListener {
             val intent = Intent(this, AddTaskActivity::class.java)
@@ -99,15 +85,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initToolbar(){
-        setSupportActionBar(preview_toolbar)
+        toolbar=findViewById(R.id.preview_toolbar)
+        setSupportActionBar(toolbar)
         title = "All Tasks"
-        preview_toolbar.title="All Tasks"
+        toolbar.title="All Tasks"
         supportActionBar?.apply {
             setHomeButtonEnabled(true)
             setDisplayHomeAsUpEnabled(true)
-            //setDisplayShowTitleEnabled(false)
         }
-        preview_toolbar.apply {
+        toolbar.apply {
             setNavigationIcon(R.drawable.ic_arrow_back)
             setNavigationOnClickListener{onBackPressed()}
         }
@@ -125,19 +111,52 @@ class MainActivity : AppCompatActivity() {
         val menuParams = MenuParams(
             actionBarSize = resources.getDimension(R.dimen.tool_bar_height).toInt(),
             menuObjects = getMenuObjects(),
-            isClosableOutside = false
+            isClosableOutside = false,
+            gravity = MenuGravity.START
+
             // set other settings to meet your needs
         )
         mContextMenuDialogFragmet = ContextMenuDialogFragment.newInstance(menuParams).apply {
             menuItemClickListener = {view, position ->
                 if(position==1){
-
+                    CoroutineScope(EmptyCoroutineContext).launch {
+                        mAllTasks = TaskDatabase(applicationContext).getTaskDao().getAllDailyTasks()
+                    }
+                    sleep(500)
+                    adapter = TasksAdapter(applicationContext,mAllTasks)
+                    recyclerView.adapter = adapter
+                    toolbar.title="Daily Tasks"
+                    adapter.notifyDataSetChanged()
                 }
                 if(position==2){
-
+                    CoroutineScope(EmptyCoroutineContext).launch {
+                        mAllTasks = TaskDatabase(applicationContext).getTaskDao().getAllWeeklyTasks()
+                    }
+                    sleep(500)
+                    adapter = TasksAdapter(applicationContext,mAllTasks)
+                    recyclerView.adapter = adapter
+                    toolbar.title="Weekly Tasks"
+                    adapter.notifyDataSetChanged()
                 }
                 if(position==3){
-
+                    CoroutineScope(EmptyCoroutineContext).launch {
+                        mAllTasks = TaskDatabase(applicationContext).getTaskDao().getAllMonthlyTasks()
+                    }
+                    sleep(500)
+                    adapter = TasksAdapter(applicationContext,mAllTasks)
+                    toolbar.title="Monthly Tasks"
+                    recyclerView.adapter = adapter
+                    adapter.notifyDataSetChanged()
+                }
+                if(position==4){
+                    CoroutineScope(EmptyCoroutineContext).launch {
+                        mAllTasks = TaskDatabase(applicationContext).getTaskDao().getAllTasks()
+                    }
+                    sleep(500)
+                    adapter = TasksAdapter(applicationContext,mAllTasks)
+                    toolbar.title="All Tasks"
+                    recyclerView.adapter = adapter
+                    adapter.notifyDataSetChanged()
                 }
             }
         }
@@ -150,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         close.drawable = getDrawable(R.drawable.ic_close)
         close.setBgResourceValue(R.color.menu_item_background)
         val daily = MenuObject("Daily Tasks")
-        daily.drawable = getDrawable(R.drawable.ic_daily)
+        daily.drawable = getDrawable(R.drawable.ic_24hours)
         daily.dividerColor = R.color.bkgndColour
         daily.setBgResourceValue(R.color.menu_item_background)
         val monthly = MenuObject("Monthly Tasks")
@@ -161,11 +180,16 @@ class MainActivity : AppCompatActivity() {
         weekly.drawable = getDrawable(R.drawable.ic_week)
         weekly.dividerColor = R.color.bkgndColour
         weekly.setBgResourceValue(R.color.menu_item_background)
+        val allTasks = MenuObject("All Tasks")
+        allTasks.drawable = getDrawable(R.drawable.ic_dedent_all)
+        allTasks.dividerColor = R.color.bkgndColour
+        allTasks.setBgResourceValue(R.color.menu_item_background)
 
         menuObjects.add(close)
         menuObjects.add(daily)
         menuObjects.add(weekly)
         menuObjects.add(monthly)
+        menuObjects.add(allTasks)
 
         return menuObjects
     }

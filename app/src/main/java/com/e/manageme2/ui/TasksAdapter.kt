@@ -30,8 +30,8 @@ class  TasksAdapter(private val context: Context, private val tasks : List<Task>
         holder.view.task_title.text = tasks[position].taskTitle
         holder.view.task_body.text = tasks[position].taskBody
         holder.view.task_count.text =tasks[position].currentScore.toString()+"/"+tasks[position].goal.toString()
-        val timeDiff: Long = tasks[position].goalTime.timeInMillis - Calendar.getInstance().timeInMillis
-        holder.view.task_days_count.text = "Days Left: " + (TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS)+1)
+        //val timeDiff: Long = tasks[position].goalTime.timeInMillis - Calendar.getInstance().timeInMillis
+        //holder.view.task_days_count.text = "Days Left: " + (TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS)+1)
 
         //update a task
         holder.view.setOnClickListener {

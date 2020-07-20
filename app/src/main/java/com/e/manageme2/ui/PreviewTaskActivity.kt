@@ -23,8 +23,8 @@ class PreviewTaskActivity : AppCompatActivity() {
         title = mTask.taskTitle
         preview_task_body.text = mTask.taskBody
 
-        val timeDiff: Long = mTask.goalTime.timeInMillis - Calendar.getInstance().timeInMillis
-        preview_task_days_count.text = "Days left: " + (TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS)+1)
+        //val timeDiff: Long = mTask.goalTime.timeInMillis - Calendar.getInstance().timeInMillis
+        //preview_task_days_count.text = "Days left: " + (TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS)+1)
 
 
     }

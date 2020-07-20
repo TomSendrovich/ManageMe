@@ -10,6 +10,15 @@ interface TaskDao {
     @Query("SELECT * FROM Task ORDER BY taskId DESC")
     fun getAllTasks() : MutableList<Task>
 
+    @Query("SELECT * FROM Task WHERE methodId=0 ORDER BY taskId DESC")
+    fun getAllDailyTasks():MutableList<Task>
+
+    @Query("SELECT * FROM Task WHERE methodId=1 ORDER BY taskId DESC")
+    fun getAllWeeklyTasks():MutableList<Task>
+
+    @Query("SELECT * FROM Task WHERE methodId=2 ORDER BY taskId DESC")
+    fun getAllMonthlyTasks():MutableList<Task>
+
     @Insert
     suspend fun addMultipleTasks (vararg task: Task)
 

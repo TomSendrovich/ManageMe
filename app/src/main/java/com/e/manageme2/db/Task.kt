@@ -12,8 +12,8 @@ data class Task(
     val taskBody: String,
     val goal: Double,
     var currentScore: Double,
-    var goalTime: Calendar,
-    var isCompleted: Boolean = false
+    var isCompleted: Boolean = false,
+    var methodId: Int
 ) : Serializable{
     @PrimaryKey(autoGenerate = true)
     var taskId: Int = 0

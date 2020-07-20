@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr">
 
     <EditText
         android:id="@+id/edit_text_title"
@@ -106,16 +107,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_desc" />
 
-    <TextView
-        android:id="@+id/text_view_goal_time"
-        android:layout_width="107dp"
-        android:layout_height="19dp"
-        android:text="Enter task's deadline:"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_time_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_current_score" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_time_horizontal"
         android:layout_width="wrap_content"
@@ -123,16 +114,80 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.48974007" />
 
-    <CalendarView
-        android:id="@+id/calender_view"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/is_it"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/calender_background"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom_horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Is it: "
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_time_horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/spinner"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view_goal_time" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_current_score" />
+
+    <Spinner
+        android:id="@+id/spinner_choose_method"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_time_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/is_it"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_current_score" />
+
+    <TextView
+        android:id="@+id/start_date_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="45dp"
+        android:text="Starting date: "
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom_horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/spinner_month"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_time_horizontal"
+        app:layout_constraintVertical_bias="0.110000014" />
+
+    <Spinner
+        android:id="@+id/spinner_month"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="24dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/start_date_month"
+        app:layout_constraintTop_toTopOf="@+id/guideline_time_horizontal"
+        app:layout_constraintVertical_bias="0.110000014" />
+
+    <TextView
+        android:id="@+id/start_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="Choose Reset Day:"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom_horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/spinner_weekly"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_date_month"
+        app:layout_constraintVertical_bias="0.23000002" />
+
+    <Spinner
+        android:id="@+id/spinner_weekly"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="24dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/start_day"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_month"
+        app:layout_constraintVertical_bias="0.19999999" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
