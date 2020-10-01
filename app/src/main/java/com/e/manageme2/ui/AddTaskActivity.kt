@@ -2,6 +2,7 @@ package com.e.manageme2.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -16,20 +17,12 @@ import java.util.*
 import kotlin.coroutines.EmptyCoroutineContext
 
 class AddTaskActivity : AppCompatActivity() {
-
     private var mTask: Task? = null
     lateinit var mTaskTitle: String
     lateinit var mTaskBody: String
     private var mTaskGoal: Double = 0.0
     private var mTaskCurrentScore: Double = 0.0
     var isUpdate: Boolean = false
-
-    private lateinit var spinnerChooseMethod: Spinner
-    private lateinit var spinnerMonth: Spinner
-    private lateinit var spinnerDay: Spinner
-    private lateinit var method: String
-    private lateinit var chosenDate: String
-    private lateinit var chosenDay: String
     private var methodId: Int = 0
 
     @SuppressLint("ResourceType")
@@ -41,131 +34,41 @@ class AddTaskActivity : AppCompatActivity() {
 
 
 
-        val methodChoose = arrayOf("Daily", "Weekly", "Monthly")
-        val daysOfWeek =
-            arrayOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
-        val daysOfMonth = arrayOf(
-            "1st",
-            "2nd",
-            "3rd",
-            "4th",
-            "5th",
-            "6th",
-            "7th",
-            "8th",
-            "9th",
-            "10th",
-            "11th",
-            "12th",
-            "13th",
-            "14th",
-            "15th",
-            "16th",
-            "17th",
-            "18th",
-            "19th",
-            "20th",
-            "21th",
-            "22th",
-            "22th",
-            "23th",
-            "24th",
-            "25th",
-            "26th",
-            "27th",
-            "28th"
-        )
-
-        spinnerChooseMethod = findViewById(R.id.spinner_choose_method)
-        spinnerChooseMethod.adapter =
-            ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, methodChoose)
-
-        spinnerChooseMethod.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                method = methodChoose[position]
-                if (method.compareTo("Daily") == 0) {
-                    start_day.visibility = View.INVISIBLE
-                    spinner_weekly.visibility = View.INVISIBLE
-
-                    start_date_month.visibility = View.INVISIBLE
-                    spinner_month.visibility = View.INVISIBLE
-
-                    methodId=0
-                }
-                if (method.compareTo("Weekly") == 0) {
-                    start_day.visibility = View.VISIBLE
-                    spinner_weekly.visibility = View.VISIBLE
-
-                    start_date_month.visibility = View.INVISIBLE
-                    spinner_month.visibility = View.INVISIBLE
-
-                    methodId=1
-                }
-                if (method.compareTo("Monthly") == 0) {
-                    start_day.visibility = View.INVISIBLE
-                    spinner_weekly.visibility = View.INVISIBLE
-
-                    start_date_month.visibility = View.VISIBLE
-                    spinner_month.visibility = View.VISIBLE
-
-                    methodId=2
-                }
-            }
-        }
-
-        spinnerMonth = findViewById(R.id.spinner_month)
-        spinnerMonth.adapter =
-            ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, daysOfMonth)
-        spinnerMonth.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                chosenDate = daysOfMonth[position]
-            }
-
-        }
-
-        spinnerDay = findViewById(R.id.spinner_weekly)
-        spinnerDay.adapter =
-            ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, daysOfWeek)
-        spinnerDay.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                chosenDay = daysOfWeek[position]
-            }
-        }
-
-
         if (task != null) {
             edit_text_title.setText(task.taskTitle)
             edit_text_desc.setText(task.taskBody)
             edit_text_goal.setText(task.goal.toString())
             edit_text_current_score.setText(task.currentScore.toString())
+            if (task.methodId == 0) {
+                daily_button.setBackgroundColor(Color.CYAN)
+                methodId=0
+            } else if (task.methodId == 1) {
+                weekly_button.setBackgroundColor(Color.CYAN)
+                methodId=1
+            } else {
+                monthly_button.setBackgroundColor(Color.CYAN)
+                methodId=2
+            }
+        }
+
+
+        daily_button.setOnClickListener {
+            methodId = 0
+            daily_button.setBackgroundColor(Color.CYAN)
+            weekly_button.setBackgroundColor(Color.parseColor("#b5b5b5"))
+            monthly_button.setBackgroundColor(Color.parseColor("#b5b5b5"))
+        }
+        weekly_button.setOnClickListener {
+            methodId = 1
+            daily_button.setBackgroundColor(Color.parseColor("#b5b5b5"))
+            weekly_button.setBackgroundColor(Color.CYAN)
+            monthly_button.setBackgroundColor(Color.parseColor("#b5b5b5"))
+        }
+        monthly_button.setOnClickListener {
+            methodId = 2
+            daily_button.setBackgroundColor(Color.parseColor("#b5b5b5"))
+            weekly_button.setBackgroundColor(Color.parseColor("#b5b5b5"))
+            monthly_button.setBackgroundColor(Color.CYAN)
         }
 
         button_save.setOnClickListener {

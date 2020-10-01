@@ -41,12 +41,6 @@
                 android:layout_marginBottom="10dp"
                 android:text="0/10"/>
 
-            <TextView
-                android:id="@+id/task_days_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/task_count"
-                android:text="@string/days_count" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

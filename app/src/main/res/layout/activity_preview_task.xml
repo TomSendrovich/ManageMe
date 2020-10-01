@@ -24,14 +24,6 @@
         android:textSize="18sp" />
 
 
-    <TextView
-        android:id="@+id/preview_task_days_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/days_count"
-        android:layout_below="@id/preview_task_body"
-        android:layout_margin="16dp"/>
-
     <ImageView
         android:id="@+id/preview_delete_image"
         android:layout_width="36dp"
