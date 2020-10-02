@@ -1,9 +1,12 @@
 package com.e.manageme2.ui
 
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.e.manageme2.R
 import com.e.manageme2.db.Task
 import com.e.manageme2.db.TaskDatabase
@@ -32,7 +35,16 @@ class PreviewTaskActivity : AppCompatActivity() {
         //preview_task_days_count.text = "Days left: " + (TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS)+1)
 
         preview_delete_image.setOnClickListener {
-            deleteTask()
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Delete Task")
+            builder.setMessage("Are you sure you want to delete the task?")
+            builder.setPositiveButton("Yes"){dialog, which ->
+                deleteTask()
+            }
+            builder.setNegativeButton("No"){dialog, which ->
+                application.motionToastInfo("Task has not been deleted",this)
+            }
+            builder.show()
         }
 
         preview_edit_image.setOnClickListener {
@@ -43,9 +55,10 @@ class PreviewTaskActivity : AppCompatActivity() {
     private fun deleteTask() {
         CoroutineScope(EmptyCoroutineContext).launch {
             TaskDatabase(applicationContext).getTaskDao().deleteTask(mTask)
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
         }
+        application.motionToastDelete("Task has been deleted",this)
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        startActivity(intent)
     }
 
     private fun editTask(task: Task) {

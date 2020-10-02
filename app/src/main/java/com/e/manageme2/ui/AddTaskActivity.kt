@@ -7,6 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import com.beardedhen.androidbootstrap.BootstrapButton
+import com.beardedhen.androidbootstrap.TypefaceProvider
+import com.beardedhen.androidbootstrap.api.attributes.BootstrapBrand
+import com.beardedhen.androidbootstrap.api.view.BootstrapBrandView
 import com.e.manageme2.R
 import com.e.manageme2.db.Task
 import com.e.manageme2.db.TaskDatabase
@@ -15,6 +19,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.coroutines.EmptyCoroutineContext
+import com.beardedhen.androidbootstrap.*
+import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand
 
 class AddTaskActivity : AppCompatActivity() {
     private var mTask: Task? = null
@@ -29,6 +35,7 @@ class AddTaskActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_task)
+        TypefaceProvider.registerDefaultIconSets()
 
         val task = intent.getSerializableExtra("EXTRA_TASK") as? Task
 
@@ -40,13 +47,13 @@ class AddTaskActivity : AppCompatActivity() {
             edit_text_goal.setText(task.goal.toString())
             edit_text_current_score.setText(task.currentScore.toString())
             if (task.methodId == 0) {
-                daily_button.setBackgroundColor(Color.CYAN)
+                daily_button.bootstrapBrand = DefaultBootstrapBrand.SUCCESS
                 methodId=0
             } else if (task.methodId == 1) {
-                weekly_button.setBackgroundColor(Color.CYAN)
+                weekly_button.bootstrapBrand = DefaultBootstrapBrand.SUCCESS
                 methodId=1
             } else {
-                monthly_button.setBackgroundColor(Color.CYAN)
+                monthly_button.bootstrapBrand = DefaultBootstrapBrand.SUCCESS
                 methodId=2
             }
         }
@@ -54,21 +61,21 @@ class AddTaskActivity : AppCompatActivity() {
 
         daily_button.setOnClickListener {
             methodId = 0
-            daily_button.setBackgroundColor(Color.CYAN)
-            weekly_button.setBackgroundColor(Color.parseColor("#b5b5b5"))
-            monthly_button.setBackgroundColor(Color.parseColor("#b5b5b5"))
+            daily_button.bootstrapBrand = DefaultBootstrapBrand.SUCCESS
+            weekly_button.bootstrapBrand = DefaultBootstrapBrand.REGULAR
+            monthly_button.bootstrapBrand = DefaultBootstrapBrand.REGULAR
         }
         weekly_button.setOnClickListener {
             methodId = 1
-            daily_button.setBackgroundColor(Color.parseColor("#b5b5b5"))
-            weekly_button.setBackgroundColor(Color.CYAN)
-            monthly_button.setBackgroundColor(Color.parseColor("#b5b5b5"))
+            daily_button.bootstrapBrand = DefaultBootstrapBrand.REGULAR
+            weekly_button.bootstrapBrand = DefaultBootstrapBrand.SUCCESS
+            monthly_button.bootstrapBrand = DefaultBootstrapBrand.REGULAR
         }
         monthly_button.setOnClickListener {
             methodId = 2
-            daily_button.setBackgroundColor(Color.parseColor("#b5b5b5"))
-            weekly_button.setBackgroundColor(Color.parseColor("#b5b5b5"))
-            monthly_button.setBackgroundColor(Color.CYAN)
+            daily_button.bootstrapBrand = DefaultBootstrapBrand.REGULAR
+            weekly_button.bootstrapBrand = DefaultBootstrapBrand.REGULAR
+            monthly_button.bootstrapBrand = DefaultBootstrapBrand.SUCCESS
         }
 
         button_save.setOnClickListener {
@@ -93,13 +100,15 @@ class AddTaskActivity : AppCompatActivity() {
             }
 
             if (mTaskTitle.isEmpty()) {
-                edit_text_title.error = "Title required"
-                edit_text_title.requestFocus()
+                application.motionToastError("Title is required",this)
+                //edit_text_title.error = "Title required"
+                //edit_text_title.requestFocus()
                 return@setOnClickListener
             }
             if (mTaskBody.isEmpty()) {
-                edit_text_desc.error = "Title required"
-                edit_text_desc.requestFocus()
+                application.motionToastError("Description is required",this)
+                //edit_text_desc.error = "Title required"
+                //edit_text_desc.requestFocus()
                 return@setOnClickListener
             }
 
@@ -127,9 +136,11 @@ class AddTaskActivity : AppCompatActivity() {
                 }
             }
             if (isUpdate) {
-                application.toast("Task updated successfully")
+                application.motionToastSuccess("Task updated successfully",this)
+                //application.toast("Task updated successfully")
             } else {
-                application.toast("Task saved successfully")
+                application.motionToastSuccess("Task saved successfully",this)
+                //application.toast("Task saved successfully")
             }
             val intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)

@@ -6,7 +6,11 @@
     android:layout_height="match_parent"
     android:layoutDirection="ltr">
 
-    <EditText
+    <com.beardedhen.androidbootstrap.BootstrapEditText
+        app:bootstrapSize="xl"
+        app:bootstrapBrand="regular"
+        app:roundedCorners="true"
+
         android:id="@+id/edit_text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +24,11 @@
         app:layout_constraintBottom_toTopOf="@id/edit_text_desc"
         app:layout_constraintTop_toBottomOf="@id/edit_text_current_score"/>
 
-    <EditText
+    <com.beardedhen.androidbootstrap.BootstrapEditText
+        app:bootstrapSize="xl"
+        app:bootstrapBrand="regular"
+        app:roundedCorners="true"
+
         android:id="@+id/edit_text_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,18 +75,22 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.83" />
 
-    <EditText
+    <com.beardedhen.androidbootstrap.BootstrapEditText
         android:id="@+id/edit_text_goal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:text="10"
         android:textSize="24sp"
+        app:bootstrapBrand="regular"
+        app:bootstrapSize="lg"
         app:layout_constraintBottom_toTopOf="@+id/guideline_top_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/slash_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_desc" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_desc"
+        app:roundedCorners="true" />
 
     <TextView
         android:id="@+id/slash_text_view"
@@ -93,19 +105,23 @@
         app:layout_constraintStart_toEndOf="@id/edit_text_current_score"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_desc" />
 
-    <EditText
+    <com.beardedhen.androidbootstrap.BootstrapEditText
         android:id="@+id/edit_text_current_score"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:text="0"
         android:textAlignment="textEnd"
         android:textSize="24sp"
+        app:bootstrapBrand="regular"
+        app:bootstrapSize="lg"
         app:layout_constraintBottom_toTopOf="@+id/guideline_top_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/slash_text_view"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_desc" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_desc"
+        app:roundedCorners="true" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_time_horizontal"
@@ -114,7 +130,12 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.48974007" />
 
-    <Button
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        app:bootstrapSize="lg"
+        app:bootstrapBrand="regular"
+        app:roundedCorners="true"
+
         android:id="@+id/daily_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -125,7 +146,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_current_score" />
 
-    <Button
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        app:bootstrapSize="lg"
+        app:bootstrapBrand="regular"
+        app:roundedCorners="true"
+
         android:id="@+id/weekly_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -136,7 +161,10 @@
         app:layout_constraintStart_toEndOf="@+id/daily_button"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_current_score" />
 
-    <Button
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        app:bootstrapSize="lg"
+        app:bootstrapBrand="regular"
+        app:roundedCorners="true"
         android:id="@+id/monthly_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
