@@ -1,18 +1,25 @@
 package com.e.manageme2.ui
 
-import android.app.Application
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import client.yalantis.com.foldingtabbar.FoldingTabBar
 import com.e.manageme2.R
 import com.e.manageme2.db.Task
 import com.e.manageme2.db.TaskDatabase
+import com.yalantis.beamazingtoday.interfaces.BatModel
+import com.yalantis.beamazingtoday.listeners.BatListener
+import com.yalantis.beamazingtoday.listeners.OnItemClickListener
+import com.yalantis.beamazingtoday.listeners.OnOutsideClickedListener
+import com.yalantis.beamazingtoday.ui.adapter.BatAdapter
+import com.yalantis.beamazingtoday.ui.animator.BatItemAnimator
+import com.yalantis.beamazingtoday.ui.widget.BatRecyclerView
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment
 import com.yalantis.contextmenu.lib.MenuGravity
 import com.yalantis.contextmenu.lib.MenuObject
@@ -25,6 +32,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.math.abs
+
 
 class MainActivity : AppCompatActivity() {
     private var mTask: Task? = null
@@ -40,6 +48,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mContextMenuDialogFragmet : ContextMenuDialogFragment
 
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -49,7 +59,8 @@ class MainActivity : AppCompatActivity() {
         initMenu()
 
 
-      //  layout_dashboard.layoutDirection= View.LAYOUT_DIRECTION_LTR
+
+          layout_dashboard.layoutDirection= View.LAYOUT_DIRECTION_LTR
 
         mTask = intent.getSerializableExtra("EXTRA_TASK") as? Task
 
@@ -65,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recycler_view_tasks)
         recyclerView.setHasFixedSize(true)
         //recyclerView.layoutManager = StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL)
-        recyclerView.layoutManager = GridLayoutManager(applicationContext,3)
+        recyclerView.layoutManager = GridLayoutManager(applicationContext, 3)
         CoroutineScope(EmptyCoroutineContext).launch {
             mAllTasks = TaskDatabase(applicationContext).getTaskDao().getAllTasks()
         }
@@ -80,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Adding all the non-finished tasks to the recycler view
-        adapter = TasksAdapter(applicationContext,notFinishedTasks)
+        adapter = TasksAdapter(applicationContext, notFinishedTasks)
         recyclerView.adapter = adapter
         adapter.notifyDataSetChanged()
 
@@ -123,13 +134,13 @@ class MainActivity : AppCompatActivity() {
             // set other settings to meet your needs
         )
         mContextMenuDialogFragmet = ContextMenuDialogFragment.newInstance(menuParams).apply {
-            menuItemClickListener = {view, position ->
+            menuItemClickListener = { view, position ->
                 if(position==1){
                     CoroutineScope(EmptyCoroutineContext).launch {
                         mAllTasks = TaskDatabase(applicationContext).getTaskDao().getAllDailyTasks()
                     }
                     sleep(500)
-                    adapter = TasksAdapter(applicationContext,mAllTasks)
+                    adapter = TasksAdapter(applicationContext, mAllTasks)
                     recyclerView.adapter = adapter
 
                     toolbar.title= "Daily Tasks"
@@ -140,9 +151,9 @@ class MainActivity : AppCompatActivity() {
                         mAllTasks = TaskDatabase(applicationContext).getTaskDao().getAllWeeklyTasks()
                     }
                     sleep(500)
-                    adapter = TasksAdapter(applicationContext,mAllTasks)
+                    adapter = TasksAdapter(applicationContext, mAllTasks)
                     recyclerView.adapter = adapter
-                    val daysLeftToFinsih = abs(currTime.get(Calendar.DAY_OF_WEEK)-7)
+                    val daysLeftToFinsih = abs(currTime.get(Calendar.DAY_OF_WEEK) - 7)
                     toolbar.title="Weekly Tasks - Days Left: $daysLeftToFinsih"
                     adapter.notifyDataSetChanged()
                 }
@@ -151,8 +162,12 @@ class MainActivity : AppCompatActivity() {
                         mAllTasks = TaskDatabase(applicationContext).getTaskDao().getAllMonthlyTasks()
                     }
                     sleep(500)
-                    adapter = TasksAdapter(applicationContext,mAllTasks)
-                    val daysLeftToFinsih = abs(currTime.get(Calendar.DAY_OF_MONTH)-currTime.getActualMaximum(Calendar.DAY_OF_MONTH))
+                    adapter = TasksAdapter(applicationContext, mAllTasks)
+                    val daysLeftToFinsih = abs(
+                        currTime.get(Calendar.DAY_OF_MONTH) - currTime.getActualMaximum(
+                            Calendar.DAY_OF_MONTH
+                        )
+                    )
                     toolbar.title="Monthly Tasks - Days Left: $daysLeftToFinsih"
                     recyclerView.adapter = adapter
                     adapter.notifyDataSetChanged()
@@ -162,7 +177,7 @@ class MainActivity : AppCompatActivity() {
                         mAllTasks = TaskDatabase(applicationContext).getTaskDao().getAllTasks()
                     }
                     sleep(500)
-                    adapter = TasksAdapter(applicationContext,mAllTasks)
+                    adapter = TasksAdapter(applicationContext, mAllTasks)
                     toolbar.title="All Tasks"
                     recyclerView.adapter = adapter
                     adapter.notifyDataSetChanged()
@@ -172,7 +187,7 @@ class MainActivity : AppCompatActivity() {
                         mAllTasks = TaskDatabase(applicationContext).getTaskDao().getAllTasks()
                     }
                     sleep(500)
-                    adapter = TasksAdapter(applicationContext,mFinishedTasks)
+                    adapter = TasksAdapter(applicationContext, mFinishedTasks)
                     toolbar.title="Finished"
                     recyclerView.adapter = adapter
                     adapter.notifyDataSetChanged()
@@ -240,4 +255,7 @@ class MainActivity : AppCompatActivity() {
             mContextMenuDialogFragmet.show(supportFragmentManager, ContextMenuDialogFragment.TAG)
         }
     }
+
+
+
 }

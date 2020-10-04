@@ -8,10 +8,11 @@ import androidx.room.TypeConverters
 
 @Database(
     entities = [Task::class],
-    version = 12,
+    version = 13,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
+//@TypeConverters(Converters::class)
+
 abstract class TaskDatabase : RoomDatabase() {
     abstract fun getTaskDao(): TaskDao
 

@@ -5,6 +5,8 @@ import android.content.Context
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import com.e.manageme2.R
+import com.google.gson.Gson
+import com.yalantis.beamazingtoday.interfaces.BatModel
 import www.sanju.motiontoast.MotionToast
 
 fun Context.toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
@@ -39,4 +41,5 @@ fun Context.motionToastDelete(message: String, activity: Activity) = MotionToast
     MotionToast.LONG_DURATION,
     ResourcesCompat.getFont(this, R.font.helvetica_regular)
 )
+
 

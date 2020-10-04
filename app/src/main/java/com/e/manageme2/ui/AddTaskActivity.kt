@@ -2,25 +2,18 @@ package com.e.manageme2.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.*
-import com.beardedhen.androidbootstrap.BootstrapButton
 import com.beardedhen.androidbootstrap.TypefaceProvider
-import com.beardedhen.androidbootstrap.api.attributes.BootstrapBrand
-import com.beardedhen.androidbootstrap.api.view.BootstrapBrandView
 import com.e.manageme2.R
 import com.e.manageme2.db.Task
 import com.e.manageme2.db.TaskDatabase
 import kotlinx.android.synthetic.main.activity_add_task.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
 import kotlin.coroutines.EmptyCoroutineContext
-import com.beardedhen.androidbootstrap.*
 import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand
+import kotlin.collections.ArrayList
 
 class AddTaskActivity : AppCompatActivity() {
     private var mTask: Task? = null
@@ -48,13 +41,13 @@ class AddTaskActivity : AppCompatActivity() {
             edit_text_current_score.setText(task.currentScore.toString())
             if (task.methodId == 0) {
                 daily_button.bootstrapBrand = DefaultBootstrapBrand.SUCCESS
-                methodId=0
+                methodId = 0
             } else if (task.methodId == 1) {
                 weekly_button.bootstrapBrand = DefaultBootstrapBrand.SUCCESS
-                methodId=1
+                methodId = 1
             } else {
                 monthly_button.bootstrapBrand = DefaultBootstrapBrand.SUCCESS
-                methodId=2
+                methodId = 2
             }
         }
 
@@ -100,13 +93,13 @@ class AddTaskActivity : AppCompatActivity() {
             }
 
             if (mTaskTitle.isEmpty()) {
-                application.motionToastError("Title is required",this)
+                application.motionToastError("Title is required", this)
                 //edit_text_title.error = "Title required"
                 //edit_text_title.requestFocus()
                 return@setOnClickListener
             }
             if (mTaskBody.isEmpty()) {
-                application.motionToastError("Description is required",this)
+                application.motionToastError("Description is required", this)
                 //edit_text_desc.error = "Title required"
                 //edit_text_desc.requestFocus()
                 return@setOnClickListener
@@ -136,10 +129,10 @@ class AddTaskActivity : AppCompatActivity() {
                 }
             }
             if (isUpdate) {
-                application.motionToastSuccess("Task updated successfully",this)
+                application.motionToastSuccess("Task updated successfully", this)
                 //application.toast("Task updated successfully")
             } else {
-                application.motionToastSuccess("Task saved successfully",this)
+                application.motionToastSuccess("Task saved successfully", this)
                 //application.toast("Task saved successfully")
             }
             val intent = Intent(applicationContext, MainActivity::class.java)

@@ -1,10 +1,9 @@
 package com.e.manageme2.db
 
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
+import com.e.manageme2.ui.Goal
 import java.io.Serializable
-import java.util.*
+
 
 @Entity
 data class Task(

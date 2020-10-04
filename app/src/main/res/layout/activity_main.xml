@@ -31,15 +31,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:backgroundTint="@color/colorPrimary"
+        android:layout_margin="16sp"
+        android:backgroundTint="#4BD7BF"
         android:clickable="true"
         android:focusable="true"
-        android:layout_margin="16sp"
 
-        android:src="@drawable/ic_add"
-        android:tint="@color/white"
+        android:src="@mipmap/ic_plus"
+        android:tint="@color/bootstrap_gray"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="50dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

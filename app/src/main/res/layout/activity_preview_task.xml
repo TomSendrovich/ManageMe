@@ -47,4 +47,18 @@
         android:layout_marginBottom="16sp"
         app:srcCompat="@drawable/edit" />
 
+    <com.yalantis.beamazingtoday.ui.widget.BatRecyclerView
+        android:id="@+id/bat_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/preview_task_body"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        app:add_button_color="@drawable/selector_button_add"
+        app:hint="@string/str_add_goal"
+        app:radio_button_res="@drawable/selector_radio_button" />
+
 </RelativeLayout>
